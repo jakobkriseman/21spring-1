@@ -3,6 +3,8 @@
 
 <head>
     <title>Socket.IO chat</title>
+
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <style>
     * {
         margin: 0;
@@ -53,11 +55,140 @@
     #messages {
         margin-bottom: 40px
     }
+    .row :nth-child(even){
+  background-color: #dcdcdc;
+}
+.row :nth-child(odd){
+  background-color: #aaaaaa;
+}
+
     </style>
 </head>
 
 <body>
-  Tilt: <span id="tiltHeading">...</span>
+    <!-- Tilt: <span id="tiltHeading">...</span> -->
+    <div class="container">
+
+    <div class="row">
+            <div class="col-xs-6">
+            AccelerationX
+            </div>
+            <div class="col-xs-6" id="accelx">
+            ...
+            </div>
+        </div> <!-- row -->
+
+        <div class="row">
+            <div class="col-xs-6">
+            AccelerationY
+            </div>
+            <div class="col-xs-6" id="accely">
+            ...
+            </div>
+        </div> <!-- row -->
+
+        <div class="row">
+            <div class="col-xs-6">
+            AccelerationZ
+            </div>
+            <div class="col-xs-6" id="accelz">
+            ...
+            </div>
+        </div> <!-- row -->
+
+        <div class="row">
+            <div class="col-xs-6">
+            CompassX
+            </div>
+            <div class="col-xs-6" id="compassx">
+            ...
+            </div>
+        </div> <!-- row -->
+
+         <div class="row">
+            <div class="col-xs-6">
+            CompassY
+            </div>
+            <div class="col-xs-6" id="compassy">
+            ...
+            </div>
+        </div> <!-- row -->
+
+        <div class="row">
+            <div class="col-xs-6">
+            CompassZ
+            </div>
+            <div class="col-xs-6" id="compassz">
+            ...
+            </div>
+        </div> <!-- row -->
+
+        <div class="row">
+            <div class="col-xs-6">
+            Pitch
+            </div>
+            <div class="col-xs-6" id="fusionPosex">
+            ...
+            </div>
+        </div> <!-- row -->
+
+        <div class="row">
+            <div class="col-xs-6">
+            Roll
+            </div>
+            <div class="col-xs-6" id="fusionPosey">
+            ...
+            </div>
+        </div> <!-- row -->
+
+        <div class="row">
+            <div class="col-xs-6">
+            Yaw
+            </div>
+            <div class="col-xs-6" id="fusionPosez">
+            ...
+            </div>
+        </div> <!-- row -->
+
+        <div class="row">
+            <div class="col-xs-6">
+            Tilt
+            </div>
+            <div class="col-xs-6" id="tiltHeading">
+            ...
+            </div>
+        </div> <!-- row -->
+
+         <div class="row">
+            <div class="col-xs-6">
+            Humidity
+            </div>
+            <div class="col-xs-6" id="humidity">
+            ...
+            </div>
+        </div> <!-- row -->
+
+        <div class="row">
+            <div class="col-xs-6">
+            Pressure
+            </div>
+            <div class="col-xs-6" id="pressure">
+            ...
+            </div>
+        </div> <!-- row -->
+
+        <div class="row">
+            <div class="col-xs-6">
+            Temperature
+            </div>
+            <div class="col-xs-6" id="temperature">
+            ...
+            </div>
+        </div> <!-- row -->
+
+        
+
+    </div> <!-- container -->
     <ul id="messages"></ul>
     <form action="">
         <input id="m" autocomplete="off" />
@@ -79,8 +210,25 @@
         });
 
         socket.on('sensors', function(data) {
-            console.log('sensors',data);
-            $("#tiltHeading").text(data.tiltHeading)
+            console.log('sensors', data);
+            tiltHeadingDegrees = data.tiltHeading * 180 / Math.PI;
+            $("#fusionPosex").text(tiltHeadingDegrees.toFixed(2))
+            fusionPosexDegrees = data.fusionPose.x * 180 / Math.PI;
+            $("#fusionPosey").text(fusionPosexDegrees.toFixed(2))
+            fusionPoseyDegrees = data.fusionPose.y * 180 / Math.PI;
+            $("#fusionPosez").text(fusionPoseyDegrees.toFixed(2))
+            fusionPosezDegrees = data.fusionPose.z * 180 / Math.PI;
+            $("#tiltHeading").text(fusionPosezDegrees.toFixed(2))
+             $("#humidity").text(data.humidity.toFixed(2))
+             $("#compassz").text(data.compass.z.toFixed(2))
+             $("#pressure").text(data.pressure.toFixed(2))
+             $("#temperature").text(data.temperature.toFixed(2))
+             $("#accelx").text(data.accel.x.toFixed(2))
+             $("#accely").text(data.accel.y.toFixed(2))
+             $("#accelz").text(data.accel.z.toFixed(2))
+             $("#compassx").text(data.compass.x.toFixed(2))
+             $("#compassy").text(data.compass.y.toFixed(2))
+
         });
 
 
